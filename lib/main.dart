@@ -38,6 +38,7 @@ class MainView extends StatelessWidget {
           _checkboxListTodo("tvätta"),
           _checkboxListTodo("städa"),
           _checkboxListTodo("springa"),
+          _checkboxListTodo("Ta bort mitt repo"),
         ],
       ),
       floatingActionButton: Padding(
