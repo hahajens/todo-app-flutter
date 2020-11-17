@@ -96,9 +96,13 @@ Widget _checkboxListTodo(String toDo) {
       child: CheckboxListTile(
           title: Text(
             toDo,
-            style: TextStyle(
-              fontSize: 20.0,
-            ),
+            style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w500),
+          ),
+          secondary: IconButton(
+            icon: Icon(Icons.delete),
+            onPressed: () {
+              print("trash");
+            },
           ),
           controlAffinity: ListTileControlAffinity.leading,
           value: false,
