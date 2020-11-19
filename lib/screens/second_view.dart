@@ -1,8 +1,9 @@
-import 'package:app_todo/main.dart';
-import 'package:app_todo/screens/main_view.dart';
+import 'package:app_todo/model.dart';
 import 'package:flutter/material.dart';
 
 class SecondView extends StatelessWidget {
+  final myController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,13 +19,30 @@ class SecondView extends StatelessWidget {
             children: [
               Padding(
                 padding: EdgeInsets.only(top: 30.0),
-                child: _textField(),
+                child: TextField(
+                  controller: myController,
+                  textCapitalization: TextCapitalization.sentences,
+                  keyboardType: TextInputType.text,
+                  decoration: InputDecoration(
+                    hintText: 'Lägg till uppgift...',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 120.0, top: 20),
+                padding: EdgeInsets.only(left: 120.0, top: 20),
                 child: Row(
                   children: [
-                    _addButton(context),
+                    IconButton(
+                        iconSize: 40.0,
+                        icon: Icon(Icons.add),
+                        onPressed: () {
+                          print("You pressed add");
+                          Navigator.pop(
+                              context,
+                              ToDoObject(
+                                  isCheckbox: false, toDo: myController.text));
+                        }),
                     _textAdd(),
                   ],
                 ),
@@ -37,28 +55,19 @@ class SecondView extends StatelessWidget {
   }
 }
 
-//textfält för inmatning av ny todo, lägg till funktionalitet
-Widget _textField() {
-  return TextField(
-    textCapitalization: TextCapitalization.sentences,
-    keyboardType: TextInputType.text,
-    decoration: InputDecoration(
-      hintText: 'Lägg till uppgift...',
-      border: OutlineInputBorder(),
-    ),
-  );
-}
-
-Widget _addButton(context) {
-  return IconButton(
-      iconSize: 40.0,
-      icon: Icon(Icons.add),
-      onPressed: () {
-        print("You pressed add");
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => MainView()));
-      });
-}
+// //textfält för inmatning av ny todo, lägg till funktionalitet
+// Widget _textField() {
+//   TextEditingController textEditingController;
+//   return TextField(
+//     controller: textEditingController,
+//     textCapitalization: TextCapitalization.sentences,
+//     keyboardType: TextInputType.text,
+//     decoration: InputDecoration(
+//       hintText: 'Lägg till uppgift...',
+//       border: OutlineInputBorder(),
+//     ),
+//   );
+// }
 
 Widget _textAdd() {
   return Text(
