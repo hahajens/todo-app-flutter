@@ -1,47 +1,40 @@
+import 'package:app_todo/model.dart';
 import 'package:app_todo/screens/second_view.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class MainView extends StatefulWidget {
-  @override
-  _MainViewState createState() => _MainViewState();
-}
-
-class _MainViewState extends State<MainView> {
-  @override
+class MainView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       // backgroundColor: Colors.grey[300],
       appBar: AppBar(
         // backgroundColor: Colors.grey[600],
         title: Text(
-          "To-do",
+          "Uppgifter",
         ),
         actions: [
-          _dropdownMenu(),
+          DropdownMenu(),
         ],
       ),
-      body: ListView(
-        children: [
-          _checkboxListTodo("tvätta"),
-          _checkboxListTodo("städa"),
-          _checkboxListTodo("springa"),
-          _checkboxListTodo("träna"),
-          _checkboxListTodo("tvätta"),
-          _checkboxListTodo("städa"),
-          _checkboxListTodo("springa"),
-          _checkboxListTodo("Ta bort mitt repo"),
-        ],
-      ),
+      body: MyListView(),
+      //ToDoList([
+      //   ToDoObject(toDo: "Träna"),
+      //   ToDoObject(toDo: "Springa"),
+      // ]),
       floatingActionButton: Padding(
         padding: const EdgeInsets.all(18.0),
         child: FloatingActionButton(
           child: Icon(Icons.add),
           backgroundColor: Colors.blueGrey,
-          //backgroundColor: Colors.blueGrey[400],
-          onPressed: () {
+          onPressed: () async {
             print("flytknapp funkar");
-            Navigator.push(
+
+            var newObject = await Navigator.push(
                 context, MaterialPageRoute(builder: (context) => SecondView()));
+
+            if (newObject != '') {
+              Provider.of<Model>(context, listen: false).addToList(newObject);
+            }
           },
         ),
       ),
@@ -49,27 +42,89 @@ class _MainViewState extends State<MainView> {
   }
 }
 
-//Dropdown-meny med filtreringalternativ, ingen funktion annat är prints
-Widget _dropdownMenu() {
-  List<String> choices = ["All", "Done", "Not done"];
+class MyListView extends StatelessWidget {
+  Widget build(BuildContext context) {
+    return Consumer<Model>(
+      builder: (context, state, child) => ListView.builder(
+          padding: const EdgeInsets.all(8),
+          itemCount: state.list.length,
+          itemBuilder: (BuildContext context, index) {
+            return Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(25.0),
+              ),
+              child: CheckboxListTile(
+                activeColor: Colors.black,
+                checkColor: Colors.white,
+                value: state.getCheckbox(index),
+                onChanged: (bool newValue) {
+                  state.setCheckbox(index, newValue);
+                  // Provider.of<Model>(context, listen: false).setCheckbox(index);
+                },
+                title: Text(
+                  state.list[index].toDo,
+                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w500),
+                ),
+                secondary: IconButton(
+                  icon: Icon(Icons.delete),
+                  onPressed: () {
+                    state.removeFromList(state.list[index]);
+                  },
+                ),
+                controlAffinity: ListTileControlAffinity.leading,
+              ),
+            );
+          }),
+    );
+  }
+}
 
-  return Padding(
-    padding: const EdgeInsets.only(right: 15.0),
-    child: PopupMenuButton<String>(
-      icon: Icon(
-        Icons.tune_rounded,
+//Dropdown-meny med filtreringalternativ, ingen funktion annat är prints
+
+class DropdownMenu extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    Icon _icon = Icon(Icons.more_vert);
+    return Consumer<Model>(
+      builder: (context, state, child) => PopupMenuButton(
+        icon: _icon,
+        itemBuilder: (context) => [
+          PopupMenuItem(
+            child: ListTile(
+              title: Text("All"),
+              onTap: () {
+                state.filteredList("All");
+                print("all");
+                Navigator.pop(context);
+              },
+            ),
+          ),
+          PopupMenuItem(
+            child: ListTile(
+              title: Text("Done"),
+              //true
+              onTap: () {
+                state.filteredList("Done");
+                Navigator.pop(context);
+                print("done");
+              },
+            ),
+          ),
+          PopupMenuItem(
+            child: ListTile(
+              title: Text("Undone"),
+              //false
+              onTap: () {
+                state.filteredList("Undone");
+                print("undone");
+                Navigator.pop(context);
+              },
+            ),
+          ),
+        ],
       ),
-      onSelected: choiceAction,
-      itemBuilder: (BuildContext context) {
-        return choices.map((String choice) {
-          return PopupMenuItem(
-            value: choice,
-            child: Text(choice),
-          );
-        }).toList();
-      },
-    ),
-  );
+    );
+  }
 }
 
 //Kollar så att knapparna i drop down fungerar
@@ -81,30 +136,4 @@ void choiceAction(String choice) {
   } else if (choice == "Not done") {
     print("You pressed: Not done");
   }
-}
-
-//genererar nytt todo-element
-Widget _checkboxListTodo(String toDo) {
-  // bool checkboxValue = false;
-  return Padding(
-    padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 0.0),
-    child: Card(
-      // color: Colors.grey[500],
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(25.0),
-      ),
-      child: CheckboxListTile(
-          title: Text(
-            toDo,
-            style: TextStyle(
-              fontSize: 20.0,
-            ),
-          ),
-          controlAffinity: ListTileControlAffinity.leading,
-          value: false,
-          onChanged: (value) {
-            print("You pressed checkbox");
-          }),
-    ),
-  );
 }

@@ -1,9 +1,11 @@
+import 'package:app_todo/model.dart';
 import 'package:app_todo/screens/main_view.dart';
 import 'package:flutter/material.dart';
-import 'package:app_todo/screens/second_view.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(MyApp());
+  var state = Model();
+  runApp(ChangeNotifierProvider(create: (context) => state, child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
