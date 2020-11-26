@@ -9,18 +9,27 @@ class TodoListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Att göra"),
+        title: Text(
+          "Att göra",
+          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+        ),
         actions: [
-          PopupMenuButton(
-            icon: Icon(Icons.tune),
-            onSelected: (value) {
-              Provider.of<MyState>(context, listen: false).setFilterBy(value);
-            },
-            itemBuilder: (context) => [
-              PopupMenuItem(child: Text('All'), value: 'All'),
-              PopupMenuItem(child: Text('Done'), value: 'Done'),
-              PopupMenuItem(child: Text('Not done'), value: 'Not done'),
-            ],
+          Padding(
+            padding: const EdgeInsets.only(right: 10.0),
+            child: PopupMenuButton(
+              icon: Icon(
+                Icons.tune,
+                size: 30,
+              ),
+              onSelected: (value) {
+                Provider.of<MyState>(context, listen: false).setFilterBy(value);
+              },
+              itemBuilder: (context) => [
+                PopupMenuItem(child: Text('All'), value: 'All'),
+                PopupMenuItem(child: Text('Done'), value: 'Done'),
+                PopupMenuItem(child: Text('Not done'), value: 'Not done'),
+              ],
+            ),
           ),
         ],
       ),
