@@ -1,11 +1,17 @@
-import 'package:app_todo/model.dart';
-import 'package:app_todo/screens/main_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'model.dart';
+import 'screens/TodoListView.dart';
+
 void main() {
-  var state = Model();
-  runApp(ChangeNotifierProvider(create: (context) => state, child: MyApp()));
+  var state = MyState();
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => state,
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -14,7 +20,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData.dark(),
       debugShowCheckedModeBanner: false,
-      home: MainView(),
+      home: TodoListView(),
     );
   }
 }

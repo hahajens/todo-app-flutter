@@ -1,46 +1,69 @@
 import 'package:flutter/material.dart';
 
-class ToDoObject {
-  String toDo;
-  bool isCheckbox;
+class TodoObject {
+  String description;
+  bool isDone;
 
-  ToDoObject({this.toDo, this.isCheckbox});
+  TodoObject({@required this.description, this.isDone});
 }
 
-class Model extends ChangeNotifier {
-  List<ToDoObject> _list = [];
+// TodoModel todoModelFromJson(String str) => TodoModel.fromJson(json.decode(str));
 
-  List<ToDoObject> get list => _list;
+// String todoModelToJson(TodoModel data) => json.encode(data.toJson());
+
+// class TodoModel {
+//     TodoModel({
+//         this.id,
+//         this.title,
+//         this.done,
+//     });
+
+//     String id;
+//     String title;
+//     bool done;
+
+//     factory TodoModel.fromJson(Map<String, dynamic> json) => TodoModel(
+//         id: json["id"],
+//         title: json["title"],
+//         done: json["done"],
+//     );
+
+//     Map<String, dynamic> toJson() => {
+//         "id": id,
+//         "title": title,
+//         "done": done,
+//     };
+// }
+
+class MyState extends ChangeNotifier {
+  List<TodoObject> _todoList = [];
+  String _filterBy = 'All';
+
+  List<TodoObject> get list => _todoList;
+
+  String get filterBy => _filterBy;
+
+  void addToList(TodoObject todo) {
+    _todoList.add(todo);
+    notifyListeners();
+  }
+
+  void removeFromList(index) {
+    _todoList.remove(index);
+    notifyListeners();
+  }
+
+  void setFilterBy(filterBy) {
+    this._filterBy = filterBy;
+    notifyListeners();
+  }
 
   bool getCheckbox(index) {
-    return _list[index].isCheckbox;
-  }
-
-  void addToList(ToDoObject object) {
-    _list.add(object);
-    notifyListeners();
-  }
-
-  void removeFromList(ToDoObject object) {
-    _list.remove(object);
-    notifyListeners();
+    return _todoList[index].isDone;
   }
 
   void setCheckbox(index, input) {
-    _list[index].isCheckbox = input;
+    _todoList[index].isDone = input;
     notifyListeners();
-  }
-
-  List<ToDoObject> filteredList(String filter) {
-    if (filter == "Done") {
-      notifyListeners();
-      print(_list.where((object) => object.isCheckbox == true).toList());
-      return _list.where((object) => object.isCheckbox == true).toList();
-    } else if (filter == "Undone") {
-      notifyListeners();
-      return _list.where((object) => object.isCheckbox == false).toList();
-    }
-
-    return _list;
   }
 }

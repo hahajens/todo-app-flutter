@@ -1,0 +1,57 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../TodoList.dart';
+import '../model.dart';
+import 'AddTodoView.dart';
+
+class TodoListView extends StatelessWidget {
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Att göra"),
+        actions: [
+          PopupMenuButton(
+            icon: Icon(Icons.tune),
+            onSelected: (value) {
+              Provider.of<MyState>(context, listen: false).setFilterBy(value);
+            },
+            itemBuilder: (context) => [
+              PopupMenuItem(child: Text('All'), value: 'All'),
+              PopupMenuItem(child: Text('Done'), value: 'Done'),
+              PopupMenuItem(child: Text('Not done'), value: 'Not done'),
+            ],
+          ),
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(6.0),
+        child: Consumer<MyState>(builder: (context, state, child) {
+          return TodoList(_filterList(state.list, state.filterBy));
+        }),
+      ),
+      floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add),
+          backgroundColor: Colors.blueGrey,
+          onPressed: () async {
+            var newObject = await Navigator.push(context,
+                MaterialPageRoute(builder: (context) => AddTodoView()));
+
+            if (newObject.description != '') {
+              Provider.of<MyState>(context, listen: false).addToList(newObject);
+            }
+          }),
+    );
+  }
+}
+
+List<TodoObject> _filterList(list, filterBy) {
+  if (filterBy == 'All') {
+    return list;
+  }
+  if (filterBy == 'Done') {
+    return list.where((item) => item.isDone == true).toList();
+  }
+  if (filterBy == 'Not done')
+    return list.where((item) => item.isDone == false).toList();
+}
