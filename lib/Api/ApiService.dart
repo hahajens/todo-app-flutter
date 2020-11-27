@@ -14,24 +14,14 @@ class ApiService {
       body: json,
       headers: {'Content-Type': 'application/json'},
     );
-    print("Done");
   }
 
   static Future<List<TodoObject>> getTodoData() async {
     var response = await http.get('$API_URL/todos?key=$API_KEY');
-    print(response.body);
     var json = jsonDecode(response.body);
-    print(json);
-
     return json.map<TodoObject>((jsonObject) {
       return TodoObject.fromJsonToTodo(jsonObject);
     }).toList();
-
-    //TodoObject.fromJsonToTodo(json);
-
-    // var jsonData = response.body;
-    // var obj = jsonDecode(jsonData);
-    // return obj;
   }
 
   static Future deleteTodo(String todoId) async {
@@ -39,12 +29,6 @@ class ApiService {
   }
 
   static Future updateTodo(String todoId) async {
-    print(todoId);
     await http.put('$API_URL/todos/$todoId?key=$API_KEY');
   }
-
-  //static Future<String> sendTodoData() async {
-
 }
-
-//}

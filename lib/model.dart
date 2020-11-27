@@ -21,34 +21,6 @@ class TodoObject {
   }
 }
 
-// TodoModel todoModelFromJson(String str) => TodoModel.fromJson(json.decode(str));
-
-// String todoModelToJson(TodoModel data) => json.encode(data.toJson());
-
-// class TodoModel {
-//     TodoModel({
-//         this.id,
-//         this.title,
-//         this.done,
-//     });
-
-//     String id;
-//     String title;
-//     bool done;
-
-//     factory TodoModel.fromJson(Map<String, dynamic> json) => TodoModel(
-//         id: json["id"],
-//         title: json["title"],
-//         done: json["done"],
-//     );
-
-//     Map<String, dynamic> toJson() => {
-//         "id": id,
-//         "title": title,
-//         "done": done,
-//     };
-// }
-
 class MyState extends ChangeNotifier {
   List<TodoObject> _todoList = [];
   String _filterBy = 'All';
