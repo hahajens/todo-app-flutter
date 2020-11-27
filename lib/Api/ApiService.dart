@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 const API_URL = "https://todoapp-api-vldfm.ondigitalocean.app";
-const API_KEY = "d7d7cd08-6c7d-468f-832e-810085635d2f";
+const API_KEY = "2c1bd490-6daf-4975-a5dd-dd6fd5487806";
 
 class ApiService {
   static Future addTodoData(TodoObject todo) async {

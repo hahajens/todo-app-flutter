@@ -55,12 +55,12 @@ class MyState extends ChangeNotifier {
     return _todoList[index].isDone;
   }
 
-  void setCheckbox(index, newValue) async {
+  void setCheckbox(TodoObject todo, newValue) async {
     // Varför hittar den inte todos id här när den gör det på removefromlist?
-    print(index.id);
-    _todoList[index].isDone = newValue;
+    //print(index.id);
+    todo.isDone = newValue;
     notifyListeners();
-    await ApiService.updateTodo(index.id);
-    await getTodoList();
+    // await ApiService.updateTodo(index.id);
+    // await getTodoList();
   }
 }

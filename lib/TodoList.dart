@@ -28,19 +28,24 @@ Widget _todoArticle(TodoObject todo, context, index) {
       value: todo.isDone,
       onChanged: (bool newValue) {
         var state = Provider.of<MyState>(context, listen: false);
-        state.setCheckbox(state.list[index], newValue);
+        state.setCheckbox(todo, newValue);
       },
       title: Padding(
         padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
         child: Text(
           todo.description,
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w700,
+            color: todo.isDone == true ? Colors.white24 : Colors.white,
+          ),
         ),
       ),
       secondary: IconButton(
         icon: Icon(
           Icons.highlight_remove_outlined,
           size: 28,
+          color: todo.isDone == true ? Colors.white24 : Colors.white,
         ),
         onPressed: () {
           var state = Provider.of<MyState>(context, listen: false);
