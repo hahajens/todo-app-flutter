@@ -18,6 +18,7 @@ class TodoList extends StatelessWidget {
 
 Widget _todoArticle(TodoObject todo, context, index) {
   return Card(
+    elevation: 4,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(15.0),
     ),
@@ -27,15 +28,18 @@ Widget _todoArticle(TodoObject todo, context, index) {
       value: todo.isDone,
       onChanged: (bool newValue) {
         var state = Provider.of<MyState>(context, listen: false);
-        state.setCheckbox(index, newValue);
+        state.setCheckbox(state.list[index], newValue);
       },
-      title: Text(
-        todo.description,
-        style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+      title: Padding(
+        padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+        child: Text(
+          todo.description,
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+        ),
       ),
       secondary: IconButton(
         icon: Icon(
-          Icons.delete,
+          Icons.highlight_remove_outlined,
           size: 28,
         ),
         onPressed: () {

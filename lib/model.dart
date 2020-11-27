@@ -1,10 +1,24 @@
+import 'package:app_todo/Api/ApiService.dart';
 import 'package:flutter/material.dart';
 
 class TodoObject {
   String description;
   bool isDone;
+  String id;
 
-  TodoObject({@required this.description, this.isDone});
+  TodoObject({@required this.description, this.isDone, this.id});
+
+  static Map<String, dynamic> fromTodoToJson(TodoObject todo) {
+    return {
+      'title': todo.description,
+      'isDone': todo.isDone,
+    };
+  }
+
+  static TodoObject fromJsonToTodo(Map<String, dynamic> json) {
+    return TodoObject(
+        id: json['id'], description: json['title'], isDone: json['done']);
+  }
 }
 
 // TodoModel todoModelFromJson(String str) => TodoModel.fromJson(json.decode(str));
@@ -41,16 +55,23 @@ class MyState extends ChangeNotifier {
 
   List<TodoObject> get list => _todoList;
 
-  String get filterBy => _filterBy;
-
-  void addToList(TodoObject todo) {
-    _todoList.add(todo);
+  Future getTodoList() async {
+    List<TodoObject> list = await ApiService.getTodoData();
+    _todoList = list;
     notifyListeners();
   }
 
-  void removeFromList(index) {
-    _todoList.remove(index);
-    notifyListeners();
+  String get filterBy => _filterBy;
+
+  void addToList(TodoObject todo) async {
+    await ApiService.addTodoData(todo);
+    await getTodoList();
+  }
+
+  void removeFromList(index) async {
+    print(index.id);
+    await ApiService.deleteTodo(index.id);
+    await getTodoList();
   }
 
   void setFilterBy(filterBy) {
@@ -62,8 +83,12 @@ class MyState extends ChangeNotifier {
     return _todoList[index].isDone;
   }
 
-  void setCheckbox(index, input) {
-    _todoList[index].isDone = input;
+  void setCheckbox(index, newValue) async {
+    // Varför hittar den inte todos id här när den gör det på removefromlist?
+    print(index.id);
+    _todoList[index].isDone = newValue;
     notifyListeners();
+    await ApiService.updateTodo(index.id);
+    await getTodoList();
   }
 }

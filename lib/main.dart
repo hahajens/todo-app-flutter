@@ -6,6 +6,7 @@ import 'screens/TodoListView.dart';
 
 void main() {
   var state = MyState();
+  state.getTodoList();
   runApp(
     ChangeNotifierProvider(
       create: (context) => state,
