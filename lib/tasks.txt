@@ -9,4 +9,6 @@
 
 - Byt filterikon****
 
-- Fixa put / setCheckbox()
+- Fixa put / setCheckbox() **********
+
+- Lösa tillbakaknapp på andravyn, mina revieware får errors.. 

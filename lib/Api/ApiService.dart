@@ -28,7 +28,13 @@ class ApiService {
     await http.delete('$API_URL/todos/$todoId?key=$API_KEY');
   }
 
-  static Future updateTodo(String todoId) async {
-    await http.put('$API_URL/todos/$todoId?key=$API_KEY');
+  static Future updateTodo(TodoObject todo) async {
+    var json = jsonEncode(TodoObject.fromTodoToJson(todo));
+    String todoId = todo.id;
+    await http.put(
+      '$API_URL/todos/$todoId?key=$API_KEY',
+      body: json,
+      headers: {'Content-Type': 'application/json'},
+    );
   }
 }

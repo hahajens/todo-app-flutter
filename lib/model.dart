@@ -11,7 +11,7 @@ class TodoObject {
   static Map<String, dynamic> fromTodoToJson(TodoObject todo) {
     return {
       'title': todo.description,
-      'isDone': todo.isDone,
+      'done': todo.isDone,
     };
   }
 
@@ -41,7 +41,6 @@ class MyState extends ChangeNotifier {
   }
 
   void removeFromList(index) async {
-    print(index.id);
     await ApiService.deleteTodo(index.id);
     await getTodoList();
   }
@@ -56,11 +55,12 @@ class MyState extends ChangeNotifier {
   }
 
   void setCheckbox(TodoObject todo, newValue) async {
-    // Varför hittar den inte todos id här när den gör det på removefromlist?
-    //print(index.id);
+    print(todo.toString());
+    print(newValue);
+    print(todo.id + "\n");
+
     todo.isDone = newValue;
-    notifyListeners();
-    // await ApiService.updateTodo(index.id);
-    // await getTodoList();
+    await ApiService.updateTodo(todo);
+    await getTodoList();
   }
 }

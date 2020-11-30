@@ -45,7 +45,6 @@ Widget _todoArticle(TodoObject todo, context, index) {
         icon: Icon(
           Icons.highlight_remove_outlined,
           size: 28,
-          color: todo.isDone == true ? Colors.white24 : Colors.white,
         ),
         onPressed: () {
           var state = Provider.of<MyState>(context, listen: false);
