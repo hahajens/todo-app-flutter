@@ -1,0 +1,12 @@
+ - Fixa så att tillbakaknapp från andravyn inte skapar null-error.***
+
+ - Fixa UI på TextFields i andra vyn: ****
+    hinttext,
+    border, 
+    padding,
+    
+- Fixa funktionalitet i checkbox.****
+
+- Byt filterikon****
+
+- Fixa put / setCheckbox()

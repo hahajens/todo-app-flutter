@@ -1,46 +1,66 @@
+import 'package:app_todo/Api/ApiService.dart';
 import 'package:flutter/material.dart';
 
-class ToDoObject {
-  String toDo;
-  bool isCheckbox;
+class TodoObject {
+  String description;
+  bool isDone;
+  String id;
 
-  ToDoObject({this.toDo, this.isCheckbox});
+  TodoObject({@required this.description, this.isDone, this.id});
+
+  static Map<String, dynamic> fromTodoToJson(TodoObject todo) {
+    return {
+      'title': todo.description,
+      'isDone': todo.isDone,
+    };
+  }
+
+  static TodoObject fromJsonToTodo(Map<String, dynamic> json) {
+    return TodoObject(
+        id: json['id'], description: json['title'], isDone: json['done']);
+  }
 }
 
-class Model extends ChangeNotifier {
-  List<ToDoObject> _list = [];
+class MyState extends ChangeNotifier {
+  List<TodoObject> _todoList = [];
+  String _filterBy = 'All';
 
-  List<ToDoObject> get list => _list;
+  List<TodoObject> get list => _todoList;
+
+  Future getTodoList() async {
+    List<TodoObject> list = await ApiService.getTodoData();
+    _todoList = list;
+    notifyListeners();
+  }
+
+  String get filterBy => _filterBy;
+
+  void addToList(TodoObject todo) async {
+    await ApiService.addTodoData(todo);
+    await getTodoList();
+  }
+
+  void removeFromList(index) async {
+    print(index.id);
+    await ApiService.deleteTodo(index.id);
+    await getTodoList();
+  }
+
+  void setFilterBy(filterBy) {
+    this._filterBy = filterBy;
+    notifyListeners();
+  }
 
   bool getCheckbox(index) {
-    return _list[index].isCheckbox;
+    return _todoList[index].isDone;
   }
 
-  void addToList(ToDoObject object) {
-    _list.add(object);
+  void setCheckbox(TodoObject todo, newValue) async {
+    // Varför hittar den inte todos id här när den gör det på removefromlist?
+    //print(index.id);
+    todo.isDone = newValue;
     notifyListeners();
-  }
-
-  void removeFromList(ToDoObject object) {
-    _list.remove(object);
-    notifyListeners();
-  }
-
-  void setCheckbox(index, input) {
-    _list[index].isCheckbox = input;
-    notifyListeners();
-  }
-
-  List<ToDoObject> filteredList(String filter) {
-    if (filter == "Done") {
-      notifyListeners();
-      print(_list.where((object) => object.isCheckbox == true).toList());
-      return _list.where((object) => object.isCheckbox == true).toList();
-    } else if (filter == "Undone") {
-      notifyListeners();
-      return _list.where((object) => object.isCheckbox == false).toList();
-    }
-
-    return _list;
+    // await ApiService.updateTodo(index.id);
+    // await getTodoList();
   }
 }
