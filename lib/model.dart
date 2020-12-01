@@ -50,10 +50,6 @@ class MyState extends ChangeNotifier {
     notifyListeners();
   }
 
-  // bool getCheckbox(index) {
-  //   return _todoList[index].isDone;
-  // }
-
   void setCheckbox(TodoObject todo, newValue) async {
     todo.isDone = newValue;
     await ApiService.updateTodo(todo);

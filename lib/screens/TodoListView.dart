@@ -46,7 +46,7 @@ class TodoListView extends StatelessWidget {
             var newObject = await Navigator.push(context,
                 MaterialPageRoute(builder: (context) => AddTodoView()));
 
-            if (newObject.description != '') {
+            if (newObject != null) {
               Provider.of<MyState>(context, listen: false).addToList(newObject);
             }
           }),
