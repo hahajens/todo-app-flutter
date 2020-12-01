@@ -1,4 +1,4 @@
-import 'package:app_todo/Api/ApiService.dart';
+import 'package:app_todo/services/ApiService.dart';
 import 'package:flutter/material.dart';
 
 class TodoObject {
@@ -6,7 +6,7 @@ class TodoObject {
   bool isDone;
   String id;
 
-  TodoObject({@required this.description, this.isDone, this.id});
+  TodoObject({this.description, this.isDone, this.id});
 
   static Map<String, dynamic> fromTodoToJson(TodoObject todo) {
     return {
@@ -40,8 +40,8 @@ class MyState extends ChangeNotifier {
     await getTodoList();
   }
 
-  void removeFromList(index) async {
-    await ApiService.deleteTodo(index.id);
+  void removeFromList(TodoObject todo) async {
+    await ApiService.deleteTodo(todo.id);
     await getTodoList();
   }
 
@@ -50,15 +50,11 @@ class MyState extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool getCheckbox(index) {
-    return _todoList[index].isDone;
-  }
+  // bool getCheckbox(index) {
+  //   return _todoList[index].isDone;
+  // }
 
   void setCheckbox(TodoObject todo, newValue) async {
-    print(todo.toString());
-    print(newValue);
-    print(todo.id + "\n");
-
     todo.isDone = newValue;
     await ApiService.updateTodo(todo);
     await getTodoList();

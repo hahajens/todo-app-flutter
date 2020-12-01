@@ -29,8 +29,8 @@ class ApiService {
   }
 
   static Future updateTodo(TodoObject todo) async {
-    var json = jsonEncode(TodoObject.fromTodoToJson(todo));
     String todoId = todo.id;
+    var json = jsonEncode(TodoObject.fromTodoToJson(todo));
     await http.put(
       '$API_URL/todos/$todoId?key=$API_KEY',
       body: json,

@@ -10,13 +10,12 @@ class TodoList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
       itemCount: todoList.length,
-      itemBuilder: (context, index) =>
-          _todoArticle(todoList[index], context, index),
+      itemBuilder: (context, index) => _todoArticle(todoList[index], context),
     );
   }
 }
 
-Widget _todoArticle(TodoObject todo, context, index) {
+Widget _todoArticle(TodoObject todo, context) {
   return Card(
     elevation: 4,
     shape: RoundedRectangleBorder(
@@ -48,7 +47,7 @@ Widget _todoArticle(TodoObject todo, context, index) {
         ),
         onPressed: () {
           var state = Provider.of<MyState>(context, listen: false);
-          state.removeFromList(state.list[index]);
+          state.removeFromList(todo);
         },
       ),
     ),

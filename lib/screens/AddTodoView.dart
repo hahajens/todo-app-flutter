@@ -43,11 +43,19 @@ class AddTodoView extends StatelessWidget {
                   borderRadius: BorderRadius.circular(23),
                 ),
                 onPressed: () {
-                  Navigator.pop(
-                    context,
-                    TodoObject(
-                        description: descriptionController.text, isDone: false),
-                  );
+                  print(descriptionController.text);
+                  if (descriptionController.text == null ||
+                      descriptionController.text == '') {
+                    Navigator.pop(context);
+                  } else {
+                    print(descriptionController.text);
+                    Navigator.pop(
+                      context,
+                      TodoObject(
+                          description: descriptionController.text,
+                          isDone: false),
+                    );
+                  }
                 },
               ),
             ),
