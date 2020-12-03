@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
 import '../TodoList.dart';
@@ -36,7 +37,11 @@ class TodoListView extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(6.0),
         child: Consumer<MyState>(builder: (context, state, child) {
-          return TodoList(_filterList(state.list, state.filterBy));
+          if (state.isLoading) {
+            return _loadingWidget();
+          } else {
+            return TodoList(_filterList(state.list, state.filterBy));
+          }
         }),
       ),
       floatingActionButton: FloatingActionButton(
@@ -63,4 +68,13 @@ List<TodoObject> _filterList(list, filterBy) {
   }
   if (filterBy == 'Not done')
     return list.where((item) => item.isDone == false).toList();
+}
+
+Widget _loadingWidget() {
+  return Scaffold(
+      body: Center(
+          child: SpinKitFadingCircle(
+    color: Colors.white,
+    size: 70.0,
+  )));
 }

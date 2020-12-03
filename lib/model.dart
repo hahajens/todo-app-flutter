@@ -24,16 +24,21 @@ class TodoObject {
 class MyState extends ChangeNotifier {
   List<TodoObject> _todoList = [];
   String _filterBy = 'All';
+  bool _isLoading = false;
+
+  bool get isLoading => _isLoading;
 
   List<TodoObject> get list => _todoList;
+  String get filterBy => _filterBy;
 
   Future getTodoList() async {
+    _isLoading = true;
+    notifyListeners();
     List<TodoObject> list = await ApiService.getTodoData();
     _todoList = list;
+    _isLoading = false;
     notifyListeners();
   }
-
-  String get filterBy => _filterBy;
 
   void addToList(TodoObject todo) async {
     await ApiService.addTodoData(todo);
@@ -45,14 +50,14 @@ class MyState extends ChangeNotifier {
     await getTodoList();
   }
 
-  void setFilterBy(filterBy) {
-    this._filterBy = filterBy;
-    notifyListeners();
-  }
-
   void setCheckbox(TodoObject todo, newValue) async {
     todo.isDone = newValue;
     await ApiService.updateTodo(todo);
     await getTodoList();
+  }
+
+  void setFilterBy(filterBy) {
+    this._filterBy = filterBy;
+    notifyListeners();
   }
 }

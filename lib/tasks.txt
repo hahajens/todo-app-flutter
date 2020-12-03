@@ -11,4 +11,4 @@
 
 - Fixa put / setCheckbox() ✓
 
-- Lösa tillbakaknapp på andravyn, mina revieware får errors.. 
+- Lösa tillbakaknapp på andravyn, mina revieware får errors..  ✓

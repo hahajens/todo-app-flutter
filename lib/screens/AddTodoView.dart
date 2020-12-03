@@ -43,9 +43,6 @@ class AddTodoView extends StatelessWidget {
                   borderRadius: BorderRadius.circular(23),
                 ),
                 onPressed: () {
-                  // ta bort IF ELSE
-
-                  print(descriptionController.text);
                   if (descriptionController.text == null ||
                       descriptionController.text == '') {
                     Navigator.pop(context);

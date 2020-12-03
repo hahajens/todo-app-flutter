@@ -8,6 +8,7 @@ const API_KEY = "2c1bd490-6daf-4975-a5dd-dd6fd5487806";
 class ApiService {
   static Future addTodoData(TodoObject todo) async {
     var json = jsonEncode(TodoObject.fromTodoToJson(todo));
+    print(json);
 
     await http.post(
       '$API_URL/todos?key=$API_KEY',
