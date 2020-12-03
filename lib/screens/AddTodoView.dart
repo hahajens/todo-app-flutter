@@ -20,12 +20,17 @@ class AddTodoView extends StatelessWidget {
           children: [
             Center(
               child: TextField(
+                style: TextStyle(fontSize: 18),
                 controller: descriptionController,
                 textCapitalization: TextCapitalization.sentences,
                 keyboardType: TextInputType.text,
                 decoration: InputDecoration(
+                  contentPadding: EdgeInsets.only(left: 15),
                   hintText: 'Lägg till uppgift...',
-                  border: OutlineInputBorder(),
+                  border: InputBorder.none,
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white38, width: 2),
+                  ),
                 ),
               ),
             ),
