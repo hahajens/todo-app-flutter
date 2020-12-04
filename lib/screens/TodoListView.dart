@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
@@ -17,6 +18,7 @@ class TodoListView extends StatelessWidget {
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 10.0),
+            //filterknapp för att filtrera todoObjekt
             child: PopupMenuButton(
               icon: Icon(
                 Icons.tune,
@@ -37,6 +39,7 @@ class TodoListView extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(6.0),
         child: Consumer<MyState>(builder: (context, state, child) {
+          // Om Den hämtar från API så visas en spinner, annars listan
           if (state.isLoading) {
             return _loadingWidget();
           } else {
@@ -44,6 +47,7 @@ class TodoListView extends StatelessWidget {
           }
         }),
       ),
+      // Läggtillknapp som skickar till AddTodoView, tar emot nytt TodoObjekt och lägger till det i listan när stacken poppas
       floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
           backgroundColor: Colors.blueGrey,
@@ -59,6 +63,7 @@ class TodoListView extends StatelessWidget {
   }
 }
 
+//filtrering
 List<TodoObject> _filterList(list, filterBy) {
   if (filterBy == 'All') {
     return list;
@@ -70,6 +75,7 @@ List<TodoObject> _filterList(list, filterBy) {
     return list.where((item) => item.isDone == false).toList();
 }
 
+//Spinner
 Widget _loadingWidget() {
   return Scaffold(
       body: Center(

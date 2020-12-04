@@ -12,3 +12,5 @@
 - Fixa put / setCheckbox() ✓
 
 - Lösa tillbakaknapp på andravyn, mina revieware får errors..  ✓
+
+- Fixa spinner när API laddar ✓

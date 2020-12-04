@@ -5,6 +5,8 @@ import 'model.dart';
 import 'screens/TodoListView.dart';
 
 void main() {
+  //Startar programmet, sätter hela appen i en ChangenotifierProvider som kan lyssna på förändringar av state
+  //kan då använda consumers där appen ska ritas om på förändringar.
   var state = MyState();
   state.getTodoList();
   runApp(

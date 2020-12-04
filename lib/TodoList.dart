@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -15,6 +16,7 @@ class TodoList extends StatelessWidget {
   }
 }
 
+//För varje item i listan skapas ett Card med värde från todoobjektet, alla metoder som kan utföras på dessa ligger i model.dart
 Widget _todoArticle(TodoObject todo, context) {
   return Card(
     elevation: 4,
@@ -42,8 +44,8 @@ Widget _todoArticle(TodoObject todo, context) {
       ),
       secondary: IconButton(
         icon: Icon(
-          Icons.highlight_remove_outlined,
-          size: 28,
+          CupertinoIcons.delete,
+          size: 25,
         ),
         onPressed: () {
           var state = Provider.of<MyState>(context, listen: false);

@@ -13,6 +13,7 @@ class AddTodoView extends StatelessWidget {
           style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
         ),
       ),
+      //TextField som lagrar input i TextEditingController descriptionController
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: Column(
@@ -48,11 +49,11 @@ class AddTodoView extends StatelessWidget {
                   borderRadius: BorderRadius.circular(23),
                 ),
                 onPressed: () {
+                  // descriptionController skickas med som argument när TodoKonstruktorn anropas.
                   if (descriptionController.text == null ||
                       descriptionController.text == '') {
                     Navigator.pop(context);
                   } else {
-                    print(descriptionController.text);
                     Navigator.pop(
                       context,
                       TodoObject(
